@@ -17,7 +17,7 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+      ['"The greatest weapon against stress is the ability to choose one thought over another." - Wlliam James', '"We are all faced with great opportunities brilliantly disguised as impossible situations." - Swindoll', '"After climbing a great hill, one only finds that there are many more hills to climb." - Nelson Mandela', '"To the mind that is still, the universe surrenders" - Lao Tzu'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
@@ -26,3 +26,17 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * Adds a link to the page.
+ */
+function addRandomLink() {
+  const links = [ <a href="bio.html"></a> ];
+  // Pick a random link.
+  const link = links[Math.floor(Math.random() * links.length)];
+
+  // Add it to the page.
+  const linkContainer = document.getElementById('link-container');
+  linkContainer.innerText = link;
+}
+
