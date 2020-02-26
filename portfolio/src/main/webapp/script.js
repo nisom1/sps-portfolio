@@ -26,3 +26,15 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function addRandomLink() {
+  const links =
+      [ href="bio.html"] ; // this currently isn't working, will fix
+
+  // Pick a random link.
+  const link = links[Math.floor(Math.random() * links.length)];
+
+  // Add it to the page.
+  const linkContainer = document.getElementById('link-container');
+  linkContainer.innerText = link;
+}
