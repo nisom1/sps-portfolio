@@ -32,3 +32,25 @@ async function getRandomFortuneUsingAsyncAwait() {
   const fortune = await response.text(); //converts the response to text
   document.getElementById('fortune-container').innerText = fortune;
 }
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+/* function getWordArray(){
+    int i;
+    fetch('/data').then(response => response.json()).then((words) => 
+    {
+    const wordsListElement = document.getElementById('words-container');
+    wordsListElement.innerHTML = '';
+    for(i=0; i<words.length; i++)
+    {
+        wordsListElement.appendChild(createListElement(words[i]))
+    }
+    console.log(words);
+
+    }); 
+*/
