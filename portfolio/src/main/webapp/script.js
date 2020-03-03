@@ -27,8 +27,41 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+
+// fetch using a URL extension
 async function getRandomFortuneUsingAsyncAwait() {
-  const response = await fetch('/data'); //fetching info
+  const response = await fetch('/data'); //fetching info. This URL requests data from a 'site' and fetch requests data from 'servelet'
   const fortune = await response.text(); //converts the response to text
   document.getElementById('fortune-container').innerText = fortune;
 }
+
+/** Creates an <li> element containing text. Creates an element (of any type) from the text*/
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+// fetch from the jsondata servlet (get jsondata's response)
+// step 3: fetching the JSON string (the array of words that was converted to a string) from the server. 
+function getWords() {
+    var i;
+    fetch('/jsondata')  // sends a request to /jsondata, because we want the response from this server, bc our data is hre, not on foturnes-server
+    .then( response => response.json() ) // parses the response as JSON
+    .then( (myObject) => // now we can reference the fields in myObject!
+    { 
+        for(i=0; i< myObject.length;i++)
+        {
+            console.log(myObject[i]); // my object is currently text on a screen
+        }
+        // step 4: adds the hard-coded comments to the page (what we'll do with real comments!)
+        const wordsList = document.getElementById('words-container');
+        wordsList.innerHTML = ' ';
+        for(i=0; i< myObject.length;i++)
+        {
+            wordsList.appendChild(createListElement(myObject[i]))
+        }
+    } );
+    
+}
+

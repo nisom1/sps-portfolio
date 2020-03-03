@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getWords()">
     <div id="content">
       <h1>Nia Isom's Portfolio</h1>
       <p> Hey there! I'm Nia and I'm currently a sophomore in Computer Engineering at Purdue University. I enjoy rock climbing, running, and simply being with friends and family. And this is my portfolio, created and updated with Cloud Shell! </p>
@@ -35,12 +35,15 @@
           Click to get a simple fortune for your complex problems! 
       </p>
       <button onclick="getRandomFortuneUsingAsyncAwait()">Fetch a fortune!</button>
-      <div id="fortune-container"></div>
+      <div id="fortune-container"></div> <!-- getting a random fortune from the server  -->
 
-        <!-- <p>Click here to get a greeting in a random language:</p>
-          <button onclick="addRandomGreeting()">Hello</button> 
-        <div id="greeting-container"></div> 
-        -->
+    <h2>Posting Comments</h2>
+      <div id="words-container"></div> <!-- THIS is where the response (what was retreived from the server) will be outputted  -->
+
+    <!-- <p>Click here to get a greeting in a random language:</p>
+        <button onclick="addRandomGreeting()">Hello</button> 
+    <div id="greeting-container"></div> 
+    -->
     
     </div>
   </body>

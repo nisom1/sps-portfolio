@@ -14,6 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.Gson;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +32,11 @@ public class DataServlet extends HttpServlet {
 
   private List<String> fortunes;
 
+
   @Override
   public void init() {
     fortunes = new ArrayList<>();
+
     fortunes.add(
         "Always remember to fall asleep with a dream, "
             + "and wake up with a purpose.");
@@ -53,13 +59,14 @@ public class DataServlet extends HttpServlet {
     fortunes.add("Don't trip over what's behind you");
   }
 
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String fortune = fortunes.get((int) (Math.random() * fortunes.size()));
-
     response.setContentType("text/html;");
     response.getWriter().println(fortune);
     // response.getWriter().println("<h1>Hello Nia!</h1>");
+
   }
 }
 
