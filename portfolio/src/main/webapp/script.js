@@ -27,14 +27,8 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-function addRandomLink() {
-  const links =
-      [ href="bio.html"] ; // this currently isn't working, will fix
-
-  // Pick a random link.
-  const link = links[Math.floor(Math.random() * links.length)];
-
-  // Add it to the page.
-  const linkContainer = document.getElementById('link-container');
-  linkContainer.innerText = link;
+async function getRandomFortuneUsingAsyncAwait() {
+  const response = await fetch('/data'); //fetching info
+  const fortune = await response.text(); //converts the response to text
+  document.getElementById('fortune-container').innerText = fortune;
 }
