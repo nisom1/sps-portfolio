@@ -6,15 +6,13 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getWords()">
     <div id="content">
       <h1>Nia Isom's Portfolio</h1>
       <p> Hey there! I'm Nia and I'm currently a sophomore in Computer Engineering at Purdue University. I enjoy rock climbing, running, and simply being with friends and family. And this is my portfolio, created and updated with Cloud Shell! </p>
       <p> <a href="images/Dad.jpg"><img src="images/Dad.jpg"/></a>
        My dad and I are always taking goofy photos </p>
-      <p>  </p>
-      <p>  </p>
-      <p>  </p>
+       <br/>
       <h2>Quick Links</h2>
       <p> <a href="bio.html">Bio:</a>   Click here to learn more about me! </p>
       <p> <a href="projects.html">Projects:</a>   Details on some of my favorite projects</p>
@@ -23,25 +21,38 @@
       <!-- <p> Not sure which link to try? Press the button below to go to a random link </p>
       <button onclick="addRandomLink()"> Random Link </button>
       <div id="link-container"></div> -->
-      
+        <br/>
       <h2>I'd love to connect!</h2>
       <ul>  <li> <a href="https://www.linkedin.com/in/niaisom/"> LinkedIn </a> (Nia Isom) </li>
             <li> <a href="https://github.com/nisom1"> GitHub </a> (nisom1) </li>
             <li> <a href="https://www.facebook.com/people/Nia-Isom/100007046448293"> Facebook </a> (Nia Isom) </li>
       </ul>
-      
+    <br/>
+
     <h2>Random Fortune</h2>
       <p> Stumped financially, romantically, or mentally? <br>
           Click to get a simple fortune for your complex problems! 
       </p>
       <button onclick="getRandomFortuneUsingAsyncAwait()">Fetch a fortune!</button>
-      <div id="fortune-container"></div>
+      <div id="fortune-container"></div> <!-- getting a random fortune from the server  -->
+      <br/>
 
-        <!-- <p>Click here to get a greeting in a random language:</p>
-          <button onclick="addRandomGreeting()">Hello</button> 
-        <div id="greeting-container"></div> 
-        -->
+    <h2>College Tips</h2>
+    <form action="/commentdata" method="POST"> <!-- /text is the servlet we're accessing -->
+      <p>Post a piece of college advice below: </p>
+      <textarea name="text-input"> ~ type here! ~ </textarea>
+      <br/>
+
+      <input type="submit" />
+    </form>
+    <br/><br/>
+    <!-- <div id="posted-comment"></div>  Below the comment submission, add their comment below/here  -->
     
     </div>
   </body>
 </html>
+
+<!-- <p>Click here to get a greeting in a random language:</p>
+    <button onclick="addRandomGreeting()">Hello</button> 
+<div id="greeting-container"></div> 
+-->
