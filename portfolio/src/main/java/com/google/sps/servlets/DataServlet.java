@@ -46,16 +46,13 @@ public class DataServlet extends HttpServlet {
     fortunes.add("You don't have to be faster than the bear, you just have to be faster than the slowest guy running from it.");
     fortunes.add("This fortune is never gonna give you up, never gonna let you down, never gonna run around and desert youuu");
     fortunes.add(
-        "Your problem isn't the problem,"
+        "Your problem isn't the problem, "
                     + "your reaction is the problem.");
-    fortunes.add("Worrying doesn't take away tomorrow's troubles,"
+    fortunes.add("Worrying doesn't take away tomorrow's troubles, "
                     + "it takes away today's peace");
-    fortunes.add("This fortune is never gonna give you up, never gonna let you down, never gonna run around and desert youuu");
-
     fortunes.add(
         "Think of the negatives in your life. "
-            + "Now remember, life is like photography - you need the negatives to develop."
-            + "Give everything time.");
+            + "Now remember, life is like photography - you need the negatives to develop.");
     fortunes.add("Don't trip over what's behind you");
   }
 
