@@ -14,6 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +40,27 @@ public class CommentServlet extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String text = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
-    // add the code to and ArrayList of String Values
-    collegeTips.add(text); // the JAVA version of appending text to an array
-   
-    // and gets the user's comment
-    // Respond with the result.
+    // Get the input (the college TIP) from the form.
+    String tip = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
+    collegeTips.add(tip); 
+
+/* Step 1: Instead of storing the resquest/text/comment in an array (above),
+     Store each text Tip as an Entity in Datastore */
+    Entity collegeTipsEntity = new Entity("College-Tips"); // Creates an Entity with a kind of "Tip," (similar to the class name) stored in var
+    collegeTipsEntity.setProperty("tip", tip);
+    // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(collegeTipsEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
+    // which has the infinite storage?
+
+    response.sendRedirect("/index.html");
+    /* Gets the user's comment (request, tip) and produces response
     response.setContentType("text/html;");
     response.getWriter().println(text); // this is what is printed on this random server page. And our main page and draw from this data but doing /text
-    response.sendRedirect("/index.html");
-  } // POST to the servlet page a string of words.. Now I need to GET the data(their comment) from this servlet
+    response.sendRedirect("/index.html"); // POST to the servlet page a string of words.. Now I need to GET the data(their comment) from this servlet
+    */
+  } 
 
   /**
    * @return the request parameter, or the default value if the parameter
