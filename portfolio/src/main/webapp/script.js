@@ -62,6 +62,17 @@ function getWords() {
             wordsList.appendChild(createListElement(myObject[i]))
         }
     } );
-    
+
+function loadCollegeTips() { // idk
+  fetch('/load-comments').then(response => response.json()).then((collegeTips) => {
+    const taskListElement = document.getElementById('user-tips');
+    collegeTips.forEach((userTip) => {
+      taskListElement.appendChild(createTaskElement(userTip));
+    })
+  });
 }
+
+
+}
+
 

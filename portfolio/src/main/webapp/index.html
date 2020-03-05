@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getWords()">
+  <body onload="getWords()" onload="loadCollegeTips()">
     <div id="content">
       <h1>Nia Isom's Portfolio</h1>
       <p> Hey there! I'm Nia and I'm currently a sophomore in Computer Engineering at Purdue University. I enjoy rock climbing, running, and simply being with friends and family. And this is my portfolio, created and updated with Cloud Shell! </p>
@@ -45,9 +45,10 @@
 
       <input type="submit" />
     </form>
-    <br/><br/>
-    <!-- <div id="posted-comment"></div>  Below the comment submission, add their comment below/here  -->
     
+    <hr/>
+    <ul id="user-tips"></ul>
+
     </div>
   </body>
 </html>

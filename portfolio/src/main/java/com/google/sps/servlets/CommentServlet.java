@@ -41,17 +41,17 @@ public class CommentServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input (the college TIP) from the form.
-    String tip = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
-    collegeTips.add(tip); 
+    String tipText = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
+    collegeTips.add(tipText); 
 
 /* Step 1: Instead of storing the resquest/text/comment in an array (above),
      Store each text Tip as an Entity in Datastore */
-    Entity collegeTipsEntity = new Entity("College-Tips"); // Creates an Entity with a kind of "Tip," (similar to the class name) stored in var
-    collegeTipsEntity.setProperty("tip", tip);
+    Entity userTipEntity = new Entity("CollegeTips"); // Instance of the College-Tips "class"
+    userTipEntity.setProperty("tipText", tipText);
     // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(collegeTipsEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
+    datastore.put(userTipEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
     // which has the infinite storage?
 
     response.sendRedirect("/index.html");
