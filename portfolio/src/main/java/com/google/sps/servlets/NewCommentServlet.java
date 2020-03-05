@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/commentdata")
-public class CommentServlet extends HttpServlet {
+@WebServlet("/new-comment")
+public class NewCommentServlet extends HttpServlet {
   private ArrayList<String> collegeTips;
 
   @Override

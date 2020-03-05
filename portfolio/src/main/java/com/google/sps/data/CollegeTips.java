@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.data.servlets;
+package com.google.sps.data;
 
 /** An item on a todo list. */
 public final class CollegeTips {
@@ -20,7 +20,7 @@ public final class CollegeTips {
   private final long id;
   private final String tipText;
 
-  public Task(long id, String tipText) {
+  public CollegeTips(long id, String tipText) {
     this.id = id;
     this.tipText = tipText;
   }

@@ -17,6 +17,12 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.CollegeTips;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
+import com.google.sps.data.CollegeTips;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,13 +54,12 @@ public class LoadCommentServlet extends HttpServlet {
       long id = entity.getKey().getId();
       String tipText = (String) entity.getProperty("tipText");
 
-      CollegeTips userTip = new putProperties(id, tipText); // what is TASK ???
+      CollegeTips userTip = new CollegeTips(id, tipText); // what is TASK ???
       listOfTips.add(userTip); // add this tip to our array list
     }
 
     Gson gson = new Gson();
-
     response.setContentType("application/json;"); // is this the right slash??
-    response.getWriter().println(gson.toJson(userTip));
+    response.getWriter().println(gson.toJson(listOfTips));
   }
 }
