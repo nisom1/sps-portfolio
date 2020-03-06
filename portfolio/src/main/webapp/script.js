@@ -66,9 +66,9 @@ function getWords() {
 
 function loadCollegeTips() { 
   console.log("Hi, loaded"); 
-  fetch('/load-comments').then(response => response.json()).then((collegeTips) => {
+  fetch('/load-comments').then(response => response.json()).then((listOfTips) => { // listOfTips was collegeTips before
     const taskListElement = document.getElementById('user-tips');
-    collegeTips.forEach((userTip) => {
+    listOfTips.forEach((userTip) => {
       taskListElement.appendChild(createTaskElement(userTip));
     })
   });

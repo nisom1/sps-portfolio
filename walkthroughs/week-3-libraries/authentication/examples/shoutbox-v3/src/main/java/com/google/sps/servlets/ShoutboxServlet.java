@@ -60,7 +60,7 @@ public class ShoutboxServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
       String text = (String) entity.getProperty("text");
-      String email = (String) entity.getProperty("email");
+      String email = (String) entity.getProperty("email"); // then "nickname"
       out.println("<li>" + email + ": " + text + "</li>");
     }
     out.println("</ul>");
