@@ -18,12 +18,18 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.CollegeTips;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +50,9 @@ public class NewCommentServlet extends HttpServlet {
     // Get the input (the college TIP) from the form.
     String tipText = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
     long timestamp = System.currentTimeMillis();
-
+    UserService userService = UserServiceFactory.getUserService();
+    String email = userService.getCurrentUser().getEmail();
+    
     collegeTips.add(tipText); 
 
 /* Step 1: Instead of storing the resquest/text/comment in an array (above),
@@ -52,6 +60,8 @@ public class NewCommentServlet extends HttpServlet {
     Entity userTipEntity = new Entity("CollegeTips"); // Instance of the College-Tips "class"
     userTipEntity.setProperty("tipText", tipText);
     userTipEntity.setProperty("timestamp", timestamp);
+    userTipEntity.setProperty("email", email);
+
 
     // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
 
