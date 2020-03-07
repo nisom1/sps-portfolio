@@ -104,4 +104,17 @@ function deleteTask(task) {
   fetch('/delete-task', {method: 'POST', body: params});
 }
 
+/*  Tells the server to get status of user. *
+function getStatus1() { 
+  console.log("got status"); 
+  fetch('/status').then(response => response.json()).then((status) => { 
+  const status = document.getElementById('possible-form');
+    })
+}*/
 
+async function getStatus() {
+  console.log("got status"); 
+  const response = await fetch('/status'); // runs the status servlet
+  const status = await response.text(); //converts the response to text
+  document.getElementById('possible-form').innerHTML = status;
+}

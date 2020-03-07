@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.CollegeTips;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,12 +43,16 @@ public class NewCommentServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input (the college TIP) from the form.
     String tipText = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
+    long timestamp = System.currentTimeMillis();
+
     collegeTips.add(tipText); 
 
 /* Step 1: Instead of storing the resquest/text/comment in an array (above),
      Store each text Tip as an Entity in Datastore */
     Entity userTipEntity = new Entity("CollegeTips"); // Instance of the College-Tips "class"
     userTipEntity.setProperty("tipText", tipText);
+    userTipEntity.setProperty("timestamp", timestamp);
+
     // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -73,7 +78,6 @@ public class NewCommentServlet extends HttpServlet {
     }
     return value;
   }
-
 }
 
 

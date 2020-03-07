@@ -22,7 +22,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
-import com.google.sps.data.CollegeTips;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class LoadCommentServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("CollegeTips"); // filter: .addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("CollegeTips").addSort("timestamp", SortDirection.DESCENDING);
     // create a Query that holds all "instances" (tips) "of the kind"/ "in the class" CollegeTips
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService(); // Open datastore
@@ -53,8 +52,9 @@ public class LoadCommentServlet extends HttpServlet {
                                                 // These converted entities become elements that we can place in an array list and iterate through
       long id = entity.getKey().getId();
       String tipText = (String) entity.getProperty("tipText");
+      long timestamp = (long) entity.getProperty("timestamp");
 
-      CollegeTips userTip = new CollegeTips(id, tipText); // what is TASK ???
+      CollegeTips userTip = new CollegeTips(id, tipText,timestamp);
       listOfTips.add(userTip); // add this tip to our array list
     }
 
