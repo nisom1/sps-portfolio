@@ -14,6 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/commentdata")
-public class CommentServlet extends HttpServlet {
+@WebServlet("/new-comment")
+public class NewCommentServlet extends HttpServlet {
   private ArrayList<String> collegeTips;
 
   @Override
@@ -36,17 +40,27 @@ public class CommentServlet extends HttpServlet {
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String text = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
-    // add the code to and ArrayList of String Values
-    collegeTips.add(text); // the JAVA version of appending text to an array
-   
-    // and gets the user's comment
-    // Respond with the result.
+    // Get the input (the college TIP) from the form.
+    String tipText = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
+    collegeTips.add(tipText); 
+
+/* Step 1: Instead of storing the resquest/text/comment in an array (above),
+     Store each text Tip as an Entity in Datastore */
+    Entity userTipEntity = new Entity("CollegeTips"); // Instance of the College-Tips "class"
+    userTipEntity.setProperty("tipText", tipText);
+    // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(userTipEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
+    // which has the infinite storage?
+
+    response.sendRedirect("/index.html");
+    /* Gets the user's comment (request, tip) and produces response
     response.setContentType("text/html;");
     response.getWriter().println(text); // this is what is printed on this random server page. And our main page and draw from this data but doing /text
-    response.sendRedirect("/index.html");
-  } // POST to the servlet page a string of words.. Now I need to GET the data(their comment) from this servlet
+    response.sendRedirect("/index.html"); // POST to the servlet page a string of words.. Now I need to GET the data(their comment) from this servlet
+    */
+  } 
 
   /**
    * @return the request parameter, or the default value if the parameter

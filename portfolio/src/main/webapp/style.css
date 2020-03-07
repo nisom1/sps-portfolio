@@ -11,3 +11,7 @@
 #link-container {
   margin-top: 20px;
 }
+
+.task > button {
+    margin-left: 10px;
+}
