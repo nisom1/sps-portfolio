@@ -76,12 +76,18 @@ function loadCollegeTips() {
 
 
 /** Creates an element that represents a task, including its delete button. */
-function createTaskElement(task) {
+function createTaskElement(task) { // task is the CollegeTip
   const taskElement = document.createElement('li');
   taskElement.className = 'task';
 
-  const titleElement = document.createElement('span');
-  titleElement.innerText = task.tipText;
+  const emailElement = document.createElement('span');
+  emailElement.innerText = task.email;
+
+  const spaceElement = document.createElement('span');
+  spaceElement.innerText = ": ";
+
+  const tipTextElement = document.createElement('span');
+  tipTextElement.innerText = task.tipText;
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
@@ -91,8 +97,9 @@ function createTaskElement(task) {
     // Remove the task from the DOM.
     taskElement.remove();
   });
-
-  taskElement.appendChild(titleElement);
+  taskElement.appendChild(emailElement);
+  taskElement.appendChild(spaceElement);
+  taskElement.appendChild(tipTextElement);
   taskElement.appendChild(deleteButtonElement);
   return taskElement;
 }
@@ -103,14 +110,6 @@ function deleteTask(task) {
   params.append('id', task.id);
   fetch('/delete-task', {method: 'POST', body: params});
 }
-
-/*  Tells the server to get status of user. *
-function getStatus1() { 
-  console.log("got status"); 
-  fetch('/status').then(response => response.json()).then((status) => { 
-  const status = document.getElementById('possible-form');
-    })
-}*/
 
 async function getStatus() {
   console.log("got status"); 

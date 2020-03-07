@@ -40,37 +40,41 @@ public class LoginServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
     PrintWriter out = response.getWriter(); // this out is just SHORTHAND
-    out.println("<h2>College Tips</h2>");
+    out.println("<h1>College Tips</h1>");
 
    // Only logged-in users can see the form
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) { // if they're on that login page, we have all the user info. just making names for it!
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/status"; // redirect to that 'dead' homepage that greets strangers (there is a logout button on the homepage).. aka the LoginServlet - strangerpage
+      String urlToRedirectToAfterUserLogsOut = "/index.html"; // redirect to that 'dead' homepage that greets strangers (there is a logout button on the homepage).. aka the LoginServlet - strangerpage
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
     // Print form... not sure where to put that logout link above
-      out.println("<p>Hello " + userEmail + "!</p>");
+      out.println("<p>Hello " + userEmail + "!");
+      out.println("(Logout <a href=\"" + logoutUrl + "\">here</a>)</p>"); // not to the servlet page
       out.println("<form action=\"/new-comment\" method=\"POST\">");
       out.println("<p>Post a piece of college advice below:</p>");
       out.println("<textarea name=\"text-input\"> ~ type here! ~ </textarea>");
       out.println("<br/>");
       out.println("<input type=\"submit\"/>");
       out.println("</form> <hr/> ");
-      out.println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>"); // not to the servlet page
     
     } else { // if they're not logged in, prep the login links, give them the stranger page
       String urlToRedirectToAfterUserLogsIn = "/index.html"; // when the user click the login link below, it will redirect to here... the login page lol
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn); // this is the URL 'wired' into the login button
-      out.println("<p>Check out pieces of college advice from students below!</p>");
       out.println("<p>See a tip that's missing? Want to leave one yourself?");
       out.println("<br/>");
       out.println("Login with your gmail <a href=\"" + loginUrl + "\">here</a>.</p>");
+      out.println("<hr/>");
+      out.println("<b>Check out pieces of college advice from students below!</b>");
+
     }
+    
     
     // Print the form with the text box, OR print a login link
     // Either way, show the college comments/tips below (bullet pointed and all that)
     // Go to the datastore and print out what's in storage
-    out.println("<ul>");
+    
+    /* out.println("<ul>");
     Query query = new Query("CollegeTips").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService(); // Open datastore
     PreparedQuery results = datastore.prepare(query); // Pass query into the datastore. Query only wants instances in the class "CollegeTips". Grabs bucket of College Tips
@@ -82,6 +86,8 @@ public class LoginServlet extends HttpServlet {
       String email = (String) entity.getProperty("email"); // then "nickname"
       out.println("<li>" + email + ": " + tipText + "</li>");
     }
-    out.println("</ul>");
+    out.println("</ul>"); */
+  
   }
 }
+// add the delete button here
