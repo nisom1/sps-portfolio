@@ -80,8 +80,8 @@ function createTaskElement(task) { // task is the CollegeTip
   const taskElement = document.createElement('li');
   taskElement.className = 'task';
 
-  const emailElement = document.createElement('span');
-  emailElement.innerText = task.email;
+  const nicknameElement = document.createElement('span');
+  nicknameElement.innerText = task.nickname;
 
   const spaceElement = document.createElement('span');
   spaceElement.innerText = ": ";
@@ -97,7 +97,7 @@ function createTaskElement(task) { // task is the CollegeTip
     // Remove the task from the DOM.
     taskElement.remove();
   });
-  taskElement.appendChild(emailElement);
+  taskElement.appendChild(nicknameElement);
   taskElement.appendChild(spaceElement);
   taskElement.appendChild(tipTextElement);
   taskElement.appendChild(deleteButtonElement);

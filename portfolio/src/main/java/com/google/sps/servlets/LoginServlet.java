@@ -39,38 +39,70 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
-    PrintWriter out = response.getWriter(); // this out is just SHORTHAND
+    PrintWriter out = response.getWriter(); 
     out.println("<h1>College Tips</h1>");
+    UserService userService = UserServiceFactory.getUserService(); // gets all info
+    
+    
+    // If user is not logged in, show a login form (could also redirect to a login page    
+    if (!userService.isUserLoggedIn()) {
+      String urlToRedirectToAfterUserLogsIn = "/index.html"; // when the user click the login link below, it will redirect to here... the NICKNAME page
+      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn); // this is the URL 'wired' into the login button
+      out.println("<b>Check out college tips from other students on the bullet pointed list below!</b><br/>Want to post some of your own advice?");
+      out.println("<br/>");
+      out.println("Login with your gmail <a href=\"" + loginUrl + "\">here</a> to see more.</p>");
+      out.println("<hr/>");
+    return;
+    }
 
-   // Only logged-in users can see the form
-    UserService userService = UserServiceFactory.getUserService();
-    if (userService.isUserLoggedIn()) { // if they're on that login page, we have all the user info. just making names for it!
+    // If user has not set a nickname, redirect to nickname page
+    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+    if (nickname == null) {
+      response.sendRedirect("/nickname");
+      return;
+    }
+
+    // User is logged in and has a nickname, so the request can proceed
       String userEmail = userService.getCurrentUser().getEmail();
+      nickname = getUserNickname(userService.getCurrentUser().getUserId());
       String urlToRedirectToAfterUserLogsOut = "/index.html"; // redirect to that 'dead' homepage that greets strangers (there is a logout button on the homepage).. aka the LoginServlet - strangerpage
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      String nicknameURL = "/nickname";
     // Print form... not sure where to put that logout link above
-      out.println("<p>Hello " + userEmail + "!");
-      out.println("(Logout <a href=\"" + logoutUrl + "\">here</a>)</p>"); // not to the servlet page
+      out.println("<p>Hello " + nickname + "!");
+      out.println("(Logout <a href=\"" + logoutUrl + "\">here</a>"); // not to the servlet page
+      out.println(" or Change nickname <a href=\"" + nicknameURL + "\">here</a>)</p>"); // not to the servlet page
+
       out.println("<form action=\"/new-comment\" method=\"POST\">");
       out.println("<p>Post a piece of college advice below:</p>");
       out.println("<textarea name=\"text-input\"> ~ type here! ~ </textarea>");
       out.println("<br/>");
       out.println("<input type=\"submit\"/>");
       out.println("</form> <hr/> ");
-    
-    } else { // if they're not logged in, prep the login links, give them the stranger page
-      String urlToRedirectToAfterUserLogsIn = "/index.html"; // when the user click the login link below, it will redirect to here... the login page lol
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn); // this is the URL 'wired' into the login button
-      out.println("<p>See a tip that's missing? Want to leave one yourself?");
-      out.println("<br/>");
-      out.println("Login with your gmail <a href=\"" + loginUrl + "\">here</a>.</p>");
-      out.println("<hr/>");
-      out.println("<b>Check out pieces of college advice from students below!</b>");
-
+       
     }
-    
-    
-    // Print the form with the text box, OR print a login link
+ 
+  /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
+    private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return null;
+    }
+    String nickname = (String) entity.getProperty("nickname");
+    return nickname;
+  }
+
+}   
+
+
+
+
+// Print the form with the text box, OR print a login link
     // Either way, show the college comments/tips below (bullet pointed and all that)
     // Go to the datastore and print out what's in storage
     
@@ -87,7 +119,3 @@ public class LoginServlet extends HttpServlet {
       out.println("<li>" + email + ": " + tipText + "</li>");
     }
     out.println("</ul>"); */
-  
-  }
-}
-// add the delete button here

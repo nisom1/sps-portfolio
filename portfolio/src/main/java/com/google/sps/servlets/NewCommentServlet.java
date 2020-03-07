@@ -52,6 +52,7 @@ public class NewCommentServlet extends HttpServlet {
     long timestamp = System.currentTimeMillis();
     UserService userService = UserServiceFactory.getUserService();
     String email = userService.getCurrentUser().getEmail();
+    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
     
     collegeTips.add(tipText); 
 
@@ -61,9 +62,7 @@ public class NewCommentServlet extends HttpServlet {
     userTipEntity.setProperty("tipText", tipText);
     userTipEntity.setProperty("timestamp", timestamp);
     userTipEntity.setProperty("email", email);
-
-
-    // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
+    userTipEntity.setProperty("nickname", nickname);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(userTipEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
@@ -88,10 +87,19 @@ public class NewCommentServlet extends HttpServlet {
     }
     return value;
   }
+
+  /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
+  private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return null;
+    }
+    String nickname = (String) entity.getProperty("nickname");
+    return nickname;
+  }
 }
-
-
-
-// we're print to a "sepearte/additional" server page. 
-// and then our main code is drawing / retreiving infomation from these extrnal pages (servlets)
-// these servlets can get their data from the user

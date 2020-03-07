@@ -54,8 +54,10 @@ public class LoadCommentServlet extends HttpServlet {
       String tipText = (String) entity.getProperty("tipText");
       long timestamp = (long) entity.getProperty("timestamp");
       String email = (String) entity.getProperty("email");
+      String nickname = (String) entity.getProperty("nickname");
 
-      CollegeTips userTip = new CollegeTips(id, tipText,timestamp,email);
+
+      CollegeTips userTip = new CollegeTips(id, tipText, timestamp, email, nickname);
       listOfTips.add(userTip); // add this tip to our array list
     }
 
