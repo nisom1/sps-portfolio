@@ -66,9 +66,9 @@ function getWords() {
 
 function loadCollegeTips() { 
   console.log("Hi, loaded"); 
-  fetch('/load-comments').then(response => response.json()).then((collegeTips) => {
+  fetch('/load-comments').then(response => response.json()).then((listOfTips) => { // listOfTips was collegeTips before
     const taskListElement = document.getElementById('user-tips');
-    collegeTips.forEach((userTip) => {
+    listOfTips.forEach((userTip) => {
       taskListElement.appendChild(createTaskElement(userTip));
     })
   });
@@ -76,12 +76,18 @@ function loadCollegeTips() {
 
 
 /** Creates an element that represents a task, including its delete button. */
-function createTaskElement(task) {
+function createTaskElement(task) { // task is the CollegeTip
   const taskElement = document.createElement('li');
   taskElement.className = 'task';
 
-  const titleElement = document.createElement('span');
-  titleElement.innerText = task.tipText;
+  const nicknameElement = document.createElement('span');
+  nicknameElement.innerText = task.nickname;
+
+  const spaceElement = document.createElement('span');
+  spaceElement.innerText = ": ";
+
+  const tipTextElement = document.createElement('span');
+  tipTextElement.innerText = task.tipText;
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
@@ -91,8 +97,9 @@ function createTaskElement(task) {
     // Remove the task from the DOM.
     taskElement.remove();
   });
-
-  taskElement.appendChild(titleElement);
+  taskElement.appendChild(nicknameElement);
+  taskElement.appendChild(spaceElement);
+  taskElement.appendChild(tipTextElement);
   taskElement.appendChild(deleteButtonElement);
   return taskElement;
 }
@@ -104,4 +111,9 @@ function deleteTask(task) {
   fetch('/delete-task', {method: 'POST', body: params});
 }
 
-
+async function getStatus() {
+  console.log("got status"); 
+  const response = await fetch('/status'); // runs the status servlet
+  const status = await response.text(); //converts the response to text
+  document.getElementById('possible-form').innerHTML = status;
+}

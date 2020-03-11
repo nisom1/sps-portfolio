@@ -17,12 +17,19 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.data.CollegeTips;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,13 +49,20 @@ public class NewCommentServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input (the college TIP) from the form.
     String tipText = getParameter(request, "text-input", ""); // Checks that the parameter isn't empty
+    long timestamp = System.currentTimeMillis();
+    UserService userService = UserServiceFactory.getUserService();
+    String email = userService.getCurrentUser().getEmail();
+    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+    
     collegeTips.add(tipText); 
 
 /* Step 1: Instead of storing the resquest/text/comment in an array (above),
      Store each text Tip as an Entity in Datastore */
     Entity userTipEntity = new Entity("CollegeTips"); // Instance of the College-Tips "class"
     userTipEntity.setProperty("tipText", tipText);
-    // is taskEntity like "collegeTipEntity? Like an external page for my array collegeTips to grow infinitely?
+    userTipEntity.setProperty("timestamp", timestamp);
+    userTipEntity.setProperty("email", email);
+    userTipEntity.setProperty("nickname", nickname);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(userTipEntity); // putting my collegeTipsEntity (infinite storage array?) on a datastore
@@ -74,10 +88,18 @@ public class NewCommentServlet extends HttpServlet {
     return value;
   }
 
+  /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
+  private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return null;
+    }
+    String nickname = (String) entity.getProperty("nickname");
+    return nickname;
+  }
 }
-
-
-
-// we're print to a "sepearte/additional" server page. 
-// and then our main code is drawing / retreiving infomation from these extrnal pages (servlets)
-// these servlets can get their data from the user

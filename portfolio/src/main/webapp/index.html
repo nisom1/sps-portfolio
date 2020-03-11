@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>My Portfolio</title> <!-- How do I show their login status on the main page?? -->
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="loadCollegeTips()">
+  <body onload= "getStatus(); loadCollegeTips()">
     <div id="content">
       <h1>Nia Isom's Portfolio</h1>
       <p> Hey there! I'm Nia and I'm currently a sophomore in Computer Engineering at Purdue University. I enjoy rock climbing, running, and simply being with friends and family. And this is my portfolio, created and updated with Cloud Shell! </p>
@@ -29,7 +29,7 @@
       </ul>
     <br/>
 
-    <h2>Random Fortune</h2>
+    <h2>Fortune Cookie</h2>
       <p> Stumped financially, romantically, or mentally? <br>
           Click to get a simple fortune for your complex problems! 
       </p>
@@ -37,19 +37,15 @@
       <div id="fortune-container"></div> <!-- getting a random fortune from the server  -->
       <br/>
 
-    <h2>College Tips</h2>
-    <form action="/new-comment" method="POST"> <!-- /text is the servlet we're accessing -->
+    <!-- <h2>College Tips</h2>
+    <form action="/new-comment" method="POST">
       <p>Post a piece of college advice below: </p>
-      <textarea name="text-input"> ~ type here! ~ </textarea>
-      <br/>
-
-      <input type="submit" />
-    </form>
+      <textarea name="text-input"> ~ type here! ~ </textarea> <br/>
+      <input type="submit" /> 
+    </form> <hr/>  -->
+    <div id="possible-form"> </div>
+    <div id="user-tips"> </div>
     
-    <hr/>
-
-    <ul id="user-tips"></ul>
-
     </div>
   </body>
 </html>

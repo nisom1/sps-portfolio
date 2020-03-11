@@ -19,9 +19,17 @@ public final class CollegeTips {
 
   private final long id;
   private final String tipText;
+  private final long timestamp;
+  private final String email;
+  private final String nickname;
 
-  public CollegeTips(long id, String tipText) {
+
+  public CollegeTips(long id, String tipText, long timestamp, String email, String nickname) {
     this.id = id;
     this.tipText = tipText;
+    this.timestamp = timestamp;
+    this.email = email;
+    this.nickname = nickname;
+
   }
 }
